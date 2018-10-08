@@ -29,7 +29,7 @@ class Map extends Component {
 function initGoogleAPI() {
     // create script to fetch google API
     const script = window.document.createElement('script');
-    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAFsdADbayWDjmwhIHX6nI9uY8qKZ-bPW4&v=3&callback=initMap";
+    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAFsdADbayWDjmwhIHX6nI9uY8qKZ-bPW4&v=3&libraries=places&callback=initMap";
     script.async = true;
     script.defer = true;
 
