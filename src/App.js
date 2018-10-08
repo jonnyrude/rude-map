@@ -13,7 +13,8 @@ class App extends Component {
       type: 'cafe',
       location: { lat: 39.685585, lng: -104.98727 },
       radius: '5000'
-    }
+    },
+    listings: []
   }
 
   render() {
@@ -25,7 +26,7 @@ class App extends Component {
           <Filter />
 
           {/* List component */}
-          <List />
+          <List places={this.state.listings}/>
         </div>
 
         <div id="map"></div>
@@ -34,7 +35,9 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // push initMap to a global (used as a callback on google's API <script>)
     window.initMap = this.initMap;
+    // init google API
     initGoogleAPI();
   }
 
@@ -45,16 +48,22 @@ class App extends Component {
         styles: []
     });
 
-    const gService = new window.google.maps.places.PlacesService(map);
-    // // this.setState({service});
-    gService.textSearch(this.state.request, (results, status) => {
-      console.log(results)
-    });
+    const service = new window.google.maps.places.PlacesService(map);
+    this.setState({service});
+    this.getListings(this.state.request);
+
   }
 
-  getListings = (results, status) => {
-      console.log(status);
-      console.table(results);
+  getListings = (req) => {
+    this.state.service.textSearch(req, (results, status) => {
+      if(status === "OK") {
+        this.setState({listings: results});
+      }
+      else {
+        console.log(`Problem with Google Places query: ${status}`)
+      }
+    });
+
   }
 
 }

@@ -6,36 +6,9 @@ class List extends Component {
         return (
             <div className="list" >
                 <ul>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
-                    <li>test list item</li>
+                    {this.props.places && this.props.places.map(cafe => {
+                        return <li key={cafe.id}>{cafe.name}</li>
+                    })}
                 </ul>
             </div>
         )
