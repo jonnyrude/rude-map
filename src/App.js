@@ -7,6 +7,7 @@ import Filter from './Filter.js';
 class App extends Component {
 
   state = {
+    map: {},
     service: {},
     request: {
       query: 'coffee',
@@ -20,7 +21,6 @@ class App extends Component {
   }
 
   render() {
-
     return (
       <div id="app-container">
         <div id="list-filter">
@@ -36,6 +36,20 @@ class App extends Component {
     );
   }
 
+  /**
+   * Markers to the map!
+   */
+  createMarkers = (map) => {
+    let mkrs = this.state.filteredResults.map((mark, index) => {
+      return new window.google.maps.Marker({
+        map: map,
+        position: mark.geometry.location,
+        id: index,
+        animation: window.google.maps.Animation.bounce
+      })
+    })
+    this.setState({ markers: mkrs });
+  }
   /**
    * GOOGLE MAP CREATION
    */
@@ -53,8 +67,10 @@ class App extends Component {
         styles: []
     });
 
+    const Cmarker = new window.google.maps.Marker({position: { lat: 39.685585, lng: -104.98727 }, name: 'Center', map: map })
+
     const service = new window.google.maps.places.PlacesService(map);
-    this.setState({service});
+    this.setState({service, map});
     this.getListings(this.state.request);
   }
 
@@ -66,6 +82,7 @@ class App extends Component {
       if(status === "OK") {
         this.setState({listings: results,
         filteredResults: results});
+        this.createMarkers(this.state.map);
       }
       else {
         console.log(`Problem with Google Places query: ${status}`)
@@ -84,7 +101,6 @@ class App extends Component {
     })
     this.setState({filteredResults: results})
   }
-
 
 }
 
