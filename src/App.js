@@ -17,7 +17,8 @@ class App extends Component {
     },
     listings: [],
     markers: [],
-    filteredResults: []
+    filteredResults: [],
+    infoWindow: {}
   }
 
   render() {
@@ -41,15 +42,54 @@ class App extends Component {
    */
   createMarkers = (map) => {
     let mkrs = this.state.filteredResults.map((mark, index) => {
-      return new window.google.maps.Marker({
+      let marker = new window.google.maps.Marker({
         map: map,
         position: mark.geometry.location,
         id: index,
-        animation: window.google.maps.Animation.bounce
-      })
+        animation: window.google.maps.Animation.drop
+      });
+
+      const callback = this.populateInfoWindow;
+
+      marker.addListener('click', function() {
+        callback(this);
+        console.log("you clicked a marker!");
+      });
+      return marker;
     })
-    this.setState({ markers: mkrs });
+
+    // Also create an info window
+    const infoWin = new window.google.maps.InfoWindow();
+
+    this.setState({ markers: mkrs, infoWindow: infoWin});
+
+
   }
+
+  /**
+   * Populate info Window
+   */
+  populateInfoWindow = (marker) => {
+    //marker.id is the index of the cafe object in state.filteredResults
+    if(this.state.infoWindow.marker !== marker) {
+
+      this.setState(state => {
+        state.infoWindow.marker = marker;
+        state.infoWindow.setContent(`${marker.id}`);
+        state.infoWindow.open(state.map, marker);
+        state.infoWindow.addListener('closeClick', () => {
+          state.infoWindow.setMarker(null);
+        })
+
+      })
+
+
+
+
+
+    }
+  }
+
   /**
    * GOOGLE MAP CREATION
    */
