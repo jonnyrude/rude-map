@@ -62,8 +62,6 @@ class App extends Component {
     const infoWin = new window.google.maps.InfoWindow();
 
     this.setState({ markers: mkrs, infoWindow: infoWin});
-
-
   }
 
   /**
@@ -72,21 +70,16 @@ class App extends Component {
   populateInfoWindow = (marker) => {
     //marker.id is the index of the cafe object in state.filteredResults
     if(this.state.infoWindow.marker !== marker) {
-
+      // console.log(this.state.listings[marker.id].geometry.location.lat());
+      this.getFourSq(this.state.listings[marker.id].geometry.location)
       this.setState(state => {
         state.infoWindow.marker = marker;
         state.infoWindow.setContent(`${marker.id}`);
         state.infoWindow.open(state.map, marker);
         state.infoWindow.addListener('closeClick', () => {
           state.infoWindow.setMarker(null);
-        })
-
-      })
-
-
-
-
-
+        });
+      });
     }
   }
 
@@ -142,6 +135,37 @@ class App extends Component {
     this.setState({filteredResults: results})
   }
 
+  /**
+   * FOURSQUARE API CALL
+   *
+   *
+   *
+   * fetch('https://api.foursquare.com/v2/venues/explore?client_id=CLIENT_ID&client_secret=CLIENT_SECRET&v=20180323&limit=1&ll=40.7243,-74.0018&query=coffee')
+    .then(function() {
+        // Code for handling API response
+    })
+    .catch(function() {
+        // Code for handling errors
+    });
+   */
+
+   getFourSq = (obj) => {
+    let url = 'https://api.foursquare.com/v2/venues/search?'
+    let authentication = 'client_id=RGZFKSSZOTBZKW0JHI0DEHD34LIHGBICEWFHRH3TBGZZ4QFY'+
+              '&client_secret=H5N1I1ECCDDGALKI5GZU1XQGYKKJJHWGAUEYG5FYZFEFTIQT'+
+              '&v=20181020'
+
+            //https://api.foursquare.com/v2/venues/search?ll=40.7,-74&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&v=YYYYMMDD
+    console.log(`${url}${authentication}&ll=${obj.lat()},${obj.lng()}&limit=1&query=coffee`);
+    fetch(`${url}${authentication}&ll=${obj.lat()},${obj.lng()}&limit=1&query=coffee`)
+    .then(response => {
+      console.log(response)
+    })
+    .catch(err => {
+      console.log(`FourSquare fetch failed: ${err}`);
+    })
+   }
+
 }
 
 
@@ -158,3 +182,4 @@ function initGoogleAPI() {
 }
 
 export default App;
+
