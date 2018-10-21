@@ -3,6 +3,7 @@ import './App.css';
 //import { Route, Link, Switch } from 'react-router-dom';
 import List from './ListComp.js';
 import Filter from './Filter.js';
+import * as data from './locations.json';
 
 class App extends Component {
 
@@ -46,14 +47,14 @@ class App extends Component {
         map: map,
         position: mark.geometry.location,
         id: index,
-        animation: window.google.maps.Animation.drop
+        animation: window.google.maps.Animation.drop // not working TODO
       });
 
       const callback = this.populateInfoWindow;
 
       marker.addListener('click', function() {
         callback(this);
-        console.log("you clicked a marker!");
+        console.log(`you clicked this: ${mark.name}`);
       });
       return marker;
     })
@@ -91,6 +92,12 @@ class App extends Component {
     window.initMap = this.initMap;
     // init google API
     initGoogleAPI();
+
+
+    /**
+     * TEST REMOVE THIS PART TEST REMOVE THIS PART TEST REMOVE THIS PART TEST REMOVE THIS PART TEST REMOVE THIS PART
+     */
+    window.tst489 = data;  //this works!
   }
 
   initMap = () => {
@@ -100,15 +107,18 @@ class App extends Component {
         styles: []
     });
 
-    const Cmarker = new window.google.maps.Marker({position: { lat: 39.685585, lng: -104.98727 }, name: 'Center', map: map })
+//    const Cmarker = new window.google.maps.Marker({position: { lat: 39.685585, lng: -104.98727 }, name: 'Center', map: map })
 
-    const service = new window.google.maps.places.PlacesService(map);
-    this.setState({service, map});
-    this.getListings(this.state.request);
+    const myPlaces = data.default;
+
+    this.setState({listings: myPlaces, filteredResults: myPlaces, map});
+    this.createMarkers(this.state.map);
   }
 
   /**
    * GET LOCAL CAFE's FROM GOOGLE PLACES
+   *
+   *  - NO LONGER IN USE
    */
   getListings = (req) => {
     this.state.service.textSearch(req, (results, status) => {
@@ -137,27 +147,16 @@ class App extends Component {
 
   /**
    * FOURSQUARE API CALL
-   *
-   *
-   *
-   * fetch('https://api.foursquare.com/v2/venues/explore?client_id=CLIENT_ID&client_secret=CLIENT_SECRET&v=20180323&limit=1&ll=40.7243,-74.0018&query=coffee')
-    .then(function() {
-        // Code for handling API response
-    })
-    .catch(function() {
-        // Code for handling errors
-    });
    */
 
    getFourSq = (obj) => {
-    let url = 'https://api.foursquare.com/v2/venues/search?'
+    let url = 'https://api.foursquare.com/v2/venues/search?';
     let authentication = 'client_id=RGZFKSSZOTBZKW0JHI0DEHD34LIHGBICEWFHRH3TBGZZ4QFY'+
               '&client_secret=H5N1I1ECCDDGALKI5GZU1XQGYKKJJHWGAUEYG5FYZFEFTIQT'+
-              '&v=20181020'
+              '&v=20181020';
+    // console.log(`${url}${authentication}&ll=${obj.lat()},${obj.lng()}&limit=1&query=coffee`);
 
-            //https://api.foursquare.com/v2/venues/search?ll=40.7,-74&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&v=YYYYMMDD
-    console.log(`${url}${authentication}&ll=${obj.lat()},${obj.lng()}&limit=1&query=coffee`);
-    fetch(`${url}${authentication}&ll=${obj.lat()},${obj.lng()}&limit=1&query=coffee`)
+    fetch(`${url}${authentication}&ll=${obj.lat},${obj.lng}&limit=1&query=coffee`)
     .then(response => {
       console.log(response)
     })
@@ -165,7 +164,6 @@ class App extends Component {
       console.log(`FourSquare fetch failed: ${err}`);
     })
    }
-
 }
 
 
