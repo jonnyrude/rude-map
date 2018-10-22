@@ -46,7 +46,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID": "5111cb01e0e2770bcdfe6e4e"
     },
     {
         "formatted_address": "238 S Broadway, Denver, CO 80209",
@@ -93,7 +94,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID":"4bb8fdcab35776b05e7dc901"
     },
     {
         "formatted_address": "1476 S Pearl St, Denver, CO 80210",
@@ -139,7 +141,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID":"4a270a1bf964a52050911fe3"
     },
     {
         "formatted_address": "4101 E Evans Ave G, Denver, CO 80222",
@@ -184,7 +187,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID":"5aa1699e446ea66ba145da16"
     },
     {
         "formatted_address": "1045 Lincoln St, Denver, CO 80203",
@@ -231,7 +235,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID":"4fcce3be7beb176f5dd71adb"
     },
     {
         "formatted_address": "3806, 630 E 6th Ave, Denver, CO 80203",
@@ -277,7 +282,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID":"4a821e7af964a520abf81fe3"
     },
     {
         "formatted_address": "3616, 1700 E 6th Ave, Denver, CO 80218",
@@ -322,7 +328,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID":"522e18ad11d2b2f9c9885561"
     },
     {
         "formatted_address": "900 W 1st Ave #180, Denver, CO 80223",
@@ -366,7 +373,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID": "5a0b26ddc21cb17216f207a3"
     },
     {
         "formatted_address": "1340 S Santa Fe Dr, Denver, CO 80223",
@@ -411,7 +419,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID":"58618edcf5957263989253f9"
     },
     {
         "formatted_address": "853 E Ohio Ave, Denver, CO 80209",
@@ -460,7 +469,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID": "4b4768f3f964a520363126e3"
     },
     {
         "formatted_address": "2823 S Broadway, Englewood, CO 80113",
@@ -505,7 +515,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID": "5839d95a9900e6088cdc88b5"
     },
     {
         "formatted_address": "1740 S Broadway, Denver, CO 80210",
@@ -551,7 +562,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID": "4f977ce1e4b0da3ed6741a9e"
     },
     {
         "formatted_address": "1229 E 6th Ave # A, Denver, CO 80218",
@@ -597,7 +609,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID": "4ad23e16f964a5205ae020e3"
     },
     {
         "formatted_address": "90 Pennsylvania St, Denver, CO 80203",
@@ -643,7 +656,8 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID": "57ae3641498e039bb7f5736c"
     },
     {
         "formatted_address": "2044 E Evans Ave, Denver, CO 80210",
@@ -688,6 +702,7 @@
             "point_of_interest",
             "establishment"
         ],
-        "html_attributions": []
+        "html_attributions": [],
+        "foursquareID": "4b46074bf964a5207c1426e3"
     }
 ]

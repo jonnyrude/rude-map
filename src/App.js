@@ -71,16 +71,27 @@ class App extends Component {
   populateInfoWindow = (marker) => {
     //marker.id is the index of the cafe object in state.filteredResults
     if(this.state.infoWindow.marker !== marker) {
-      // console.log(this.state.listings[marker.id].geometry.location.lat());
-      this.getFourSq(this.state.listings[marker.id].geometry.location)
-      this.setState(state => {
-        state.infoWindow.marker = marker;
-        state.infoWindow.setContent(`${marker.id}`);
-        state.infoWindow.open(state.map, marker);
-        state.infoWindow.addListener('closeClick', () => {
-          state.infoWindow.setMarker(null);
-        });
-      });
+
+
+
+        // Populate sidebar with info from Foursquare
+        this.getFourSq(this.state.listings[marker.id].foursquareID)
+        .then(res => res.json())
+        .then(resp => {
+          console.log(`Foursquare data fetched: ${resp.response.venue.name}`)
+          // Populate infoWindow with info from Google
+          this.setState(state => {
+            state.infoWindow.marker = marker;
+            state.infoWindow.setContent(`${resp.response.venue.name} </br> ${resp.response.venue.rating}`);
+            state.infoWindow.open(state.map, marker);
+            state.infoWindow.addListener('closeClick', () => {
+              state.infoWindow.setMarker(null);
+            });
+            state.currentVenue = resp; // TODO use or remove
+        })
+      }).catch(err => {
+        console.log(`Error with 4sq req: ${err}`)
+      })
     }
   }
 
@@ -147,22 +158,17 @@ class App extends Component {
 
   /**
    * FOURSQUARE API CALL
+   *
+   *  - return a promise/fetch
    */
 
-   getFourSq = (obj) => {
-    let url = 'https://api.foursquare.com/v2/venues/search?';
+   getFourSq = (id) => {
+    let url = 'https://api.foursquare.com/v2/venues/';
     let authentication = 'client_id=RGZFKSSZOTBZKW0JHI0DEHD34LIHGBICEWFHRH3TBGZZ4QFY'+
               '&client_secret=H5N1I1ECCDDGALKI5GZU1XQGYKKJJHWGAUEYG5FYZFEFTIQT'+
               '&v=20181020';
-    // console.log(`${url}${authentication}&ll=${obj.lat()},${obj.lng()}&limit=1&query=coffee`);
 
-    fetch(`${url}${authentication}&ll=${obj.lat},${obj.lng}&limit=1&query=coffee`)
-    .then(response => {
-      console.log(response)
-    })
-    .catch(err => {
-      console.log(`FourSquare fetch failed: ${err}`);
-    })
+    return fetch(`${url}${id}?${authentication}`)
    }
 }
 
