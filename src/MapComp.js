@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import './App.css';
 
 class Map extends Component {
+    state = {
+        map: null,
+        boundary: null,
+        markers: null,
+        infoWindow: null,
+        currentVenue: null
+    }
 
     render() {
         return <div id="map"></div>
@@ -14,6 +21,27 @@ class Map extends Component {
         initGoogleAPI();
     }
 
+    componentDidUpdate(prevProps) {
+        // ATTEMPT to filter markers - doesn't work
+        // // filter markers, if needed
+        // if (prevProps.places !== this.props.places ) {
+
+        //     this.setState((state) => {
+        //         // console.log("Maps places changed"); // This fires
+        //         let showing = this.props.places.map(place => place.id);
+        //         return {
+        //             markers:  state.markers.forEach(marker => {
+        //                 if (showing.includes(marker.id)) {
+        //                     marker.map = this.state.map;
+        //                 }
+        //                 else {
+        //                     marker.map = null;
+        //                 }
+        //             })
+        //         }
+        //     })
+        // }
+    }
     /**
      * GOOGLE MAP CREATION
      */
@@ -27,17 +55,20 @@ class Map extends Component {
 
         this.setState({ map });
         this.createMarkers(this.state.map);
+        this.state.map.fitBounds(this.state.boundary);
     }
 
     /**
      * Markers to the map!
      */
     createMarkers = (map) => {
+        let bounds = new window.google.maps.LatLngBounds();
         let mkrs = this.props.places.map((mark, index) => {
             let marker = new window.google.maps.Marker({
                 map: map,
                 position: mark.geometry.location,
-                id: index,
+                id: mark.id,
+                index: index,
                 animation: window.google.maps.Animation.drop // not working TODO
             });
 
@@ -47,13 +78,15 @@ class Map extends Component {
                 callback(this);
                 console.log(`you clicked this: ${mark.name}`);
             });
+            bounds.extend(marker.position);
             return marker;
         })
 
         // Also create an info window
         const infoWin = new window.google.maps.InfoWindow();
 
-        this.setState({ markers: mkrs, infoWindow: infoWin });
+
+        this.setState({ markers: mkrs, infoWindow: infoWin, boundary: bounds });
     }
 
 
@@ -65,14 +98,14 @@ class Map extends Component {
         if (this.state.infoWindow.marker !== marker) {
 
             // Populate infoWin with info from Foursquare
-            this.props.fourSqAPIcall(marker.id)
+            this.props.fourSqAPIcall(marker.index)
                 .then(res => res.json())
                 .then(resp => {
                     console.log(`Foursquare data fetched: ${resp.response.venue.name}`)
                     // Populate infoWindow with info from Google
                     this.setState(state => {
                         state.infoWindow.marker = marker;
-                        state.infoWindow.setContent(`${resp.response.venue.name} </br> ${resp.response.venue.rating}`);
+                        state.infoWindow.setContent(this.createInfoWinContent(resp));
                         state.infoWindow.open(state.map, marker);
                         state.infoWindow.addListener('closeClick', () => {
                             state.infoWindow.setMarker(null);
@@ -85,6 +118,9 @@ class Map extends Component {
         }
     }
 
+    createInfoWinContent = (resp) => {
+        return `${resp.response.venue.name} </br> FourSquare Rating: ${resp.response.venue.rating}`
+    }
 
 
 }
