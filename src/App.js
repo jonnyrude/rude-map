@@ -21,7 +21,7 @@ class App extends Component {
           <Filter query={this.filter}/>
 
           {/* List component */}
-          <List places={this.state.filteredResults}/>
+          <List places={this.state.filteredResults} selectItem={this.displayCafeInfo}/>
         </div>
 
         {/* <div id="map"></div> */}
@@ -67,7 +67,6 @@ class App extends Component {
     })
     this.setState({filteredResults: results})
   }
-
 
 
   /**

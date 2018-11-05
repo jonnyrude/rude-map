@@ -25,9 +25,31 @@ body {
   min-height: min-content;
 }
 
+#filter-query {
+  width: 98%;
+}
 .list {
   height: 300px;
   overflow: auto;
+}
+
+
+ul {
+  padding-left: 20px;
+}
+
+
+li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+li:hover {
+  cursor: pointer;
+}
+
+.chosen {
+  color: red;
 }
 
 #map {
@@ -55,8 +77,6 @@ body {
   .list {
     height: 100%;
   }
-
-
 
 }
 
