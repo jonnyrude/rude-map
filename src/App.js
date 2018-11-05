@@ -64,8 +64,10 @@ class App extends Component {
  *
  */
   selectItem(eventObject) {
-    if(eventObject.target.tagName === "LI") {
+    if(typeof eventObject === "object" && eventObject.target.tagName === "LI") {
       this.setState({ selectedItemID: eventObject.target.id})
+  } else if (typeof eventObject === "string") {
+    this.setState({selectedItemID: eventObject});
   }
   // eventObject.target.className = "chosen";
   }

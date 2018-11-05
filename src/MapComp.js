@@ -22,7 +22,6 @@ class Map extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log("map component updated")
         this.props.selection && this.state.markers.forEach(marker => {
             if(marker.foursquareID === this.props.selection) {
                 this.populateInfoWindow(marker);
@@ -124,12 +123,15 @@ class Map extends Component {
                     console.log(`Error with 4sq req: ${err}`)
                 })
         }
+        // Send selection id up to parent
+        if(marker.foursquareID !== this.props.selection) {
+            this.props.selectItem(marker.foursquareID);
+        }
     }
 
     createInfoWinContent = (resp) => {
         return `${resp.response.venue.name} </br> FourSquare Rating: ${resp.response.venue.rating}`
     }
-
 
 }
 
