@@ -22,6 +22,13 @@ class Map extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        console.log("map component updated")
+        this.props.selection && this.state.markers.forEach(marker => {
+            if(marker.foursquareID === this.props.selection) {
+                this.populateInfoWindow(marker);
+            }
+        })
+
         // ATTEMPT to filter markers - doesn't work
         // // filter markers, if needed
         // if (prevProps.places !== this.props.places ) {
@@ -68,6 +75,7 @@ class Map extends Component {
                 map: map,
                 position: mark.geometry.location,
                 id: mark.id,
+                foursquareID: mark.foursquareID,
                 index: index,
                 animation: window.google.maps.Animation.drop // not working TODO
             });

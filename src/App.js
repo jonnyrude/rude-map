@@ -64,15 +64,10 @@ class App extends Component {
  *
  */
   selectItem(eventObject) {
-    // this.setState({ selectedItemID: fourSQid} )
-
     if(eventObject.target.tagName === "LI") {
-      // console.log(this);
-      // this.props.selectItem(e.target.id);
-      console.log(eventObject.target.id);
       this.setState({ selectedItemID: eventObject.target.id})
   }
-  eventObject.target.className = "chosen";
+  // eventObject.target.className = "chosen";
   }
 
   /**

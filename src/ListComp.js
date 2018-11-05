@@ -12,7 +12,7 @@ class List extends Component {
                             return (<div key={cafe.id} className="selectedCafe chosen">
                                         <li key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
                                         <div className="listInfo">
-                                            <p>YOU CHOSE THIS ONE!</p>
+                                            <p>{cafe.formatted_address}</p>
                                         </div>
                                     </div>)
 
