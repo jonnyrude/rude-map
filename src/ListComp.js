@@ -5,21 +5,26 @@ class List extends Component {
     render () {
         return (
             <div className="list" >
-                <ul onClick={this.clickedOn}>
+                <ul onClick={this.props.selectItem}>
                     {this.props.places && this.props.places.map(cafe => {
-                        return <li key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
+
+                        if(this.props.selection && this.props.selection.toString() === cafe.foursquareID) {
+                            return (<div key={cafe.id} className="selectedCafe chosen">
+                                        <li key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
+                                        <div className="listInfo">
+                                            <p>YOU CHOSE THIS ONE!</p>
+                                        </div>
+                                    </div>)
+
+                        } else {
+                            return <li key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
+                        }
                     })}
                 </ul>
             </div>
         )
     }
 
-    clickedOn(e) {
-
-        // console.log(this);
-        console.log(e.target.color);
-        e.target.className = "chosen";
-    }
 }
 
 export default List

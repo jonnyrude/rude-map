@@ -11,6 +11,7 @@ class App extends Component {
   state = {
     listings: [],
     filteredResults: [],
+    selectedItemID: null
   }
 
   render() {
@@ -21,11 +22,13 @@ class App extends Component {
           <Filter query={this.filter}/>
 
           {/* List component */}
-          <List places={this.state.filteredResults} selectItem={this.displayCafeInfo}/>
+          <List places={this.state.filteredResults} selectItem={(arg) => this.selectItem(arg)}
+          selection={this.state.selectedItemID}/>
         </div>
 
         {/* <div id="map"></div> */}
-        <Map places={this.state.filteredResults} fourSqAPIcall={this.getFourSq}/>
+        <Map places={this.state.filteredResults} fourSqAPIcall={this.getFourSq} selectItem={(arg) => this.selectItem(arg)}
+          selection={this.state.selectedItemID}/>
       </div>
     );
   }
@@ -55,6 +58,22 @@ class App extends Component {
   //     }
   //   });
   // }
+
+/**
+ * GET SELECTED ITEM FROM CLICK
+ *
+ */
+  selectItem(eventObject) {
+    // this.setState({ selectedItemID: fourSQid} )
+
+    if(eventObject.target.tagName === "LI") {
+      // console.log(this);
+      // this.props.selectItem(e.target.id);
+      console.log(eventObject.target.id);
+      this.setState({ selectedItemID: eventObject.target.id})
+  }
+  eventObject.target.className = "chosen";
+  }
 
   /**
    * FILTER FUNCTIONALITY
