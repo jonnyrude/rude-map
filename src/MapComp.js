@@ -105,32 +105,46 @@ class Map extends Component {
         if (this.state.infoWindow.marker !== marker) {
 
             // Populate infoWin with info from Foursquare
-            this.props.fourSqAPIcall(marker.index)
-                .then(res => res.json())
-                .then(resp => {
-                    console.log(`Foursquare data fetched: ${resp.response.venue.name}`)
-                    // Populate infoWindow with info from Google
-                    this.setState(state => {
-                        state.infoWindow.marker = marker;
-                        state.infoWindow.setContent(this.createInfoWinContent(resp));
-                        state.infoWindow.open(state.map, marker);
-                        state.infoWindow.addListener('closeClick', () => {
-                            state.infoWindow.setMarker(null);
-                        });
-                        state.currentVenue = resp; // TODO use or remove
-                    })
-                }).catch(err => {
-                    console.log(`Error with 4sq req: ${err}`)
+           this.props.fourSqAPIcall(marker.index)
+           .then(data =>  {
+            //    console.log(data)
+                return Promise.all(data)
+            })  //data.map(elem => elem.json()))  LEFT OFF HERE_NEED TO FIRE
+           .then(resp => {
+                console.log(resp)
+                // console.log(`Foursquare data fetched: ${resp.response.venue.name}`)
+                // Populate infoWindow with info from Google
+                this.setState(state => {
+                    state.infoWindow.marker = marker;
+                    state.infoWindow.setContent(this.createInfoWinContent(resp[0], resp[1]));
+                    state.infoWindow.open(state.map, marker);
+                    state.infoWindow.addListener('closeClick', () => {
+                        state.infoWindow.setMarker(null);
+                    });
+                    state.currentVenue = resp; // TODO use or remove
                 })
-        }
+            })
+
+
+
         // Send selection id up to parent
         if(marker.foursquareID !== this.props.selection) {
             this.props.selectItem(marker.foursquareID);
         }
+        }
     }
+    /**
+     * Create HTML for infowindow
+     */
 
-    createInfoWinContent = (resp) => {
-        return `${resp.response.venue.name} </br> FourSquare Rating: ${resp.response.venue.rating}`
+    createInfoWinContent(foursqData, foursqPhotoInfo) {
+        let googleInfo = this.props.places.find(loc => loc.foursquareID === foursqData.response.venue.id);
+        // let imageURL = this.props.foursqPhoto(markerIndex)
+        // return this.props.foursqPhoto(markerIndex)
+        let photoURL = foursqPhotoInfo.response.photos.items[0].prefix + '100x100' + foursqPhotoInfo.response.photos.items[0].suffix
+        console.log(`foursqData: ${foursqData}, foursqPhotoInfo: ${foursqPhotoInfo}, photoURL: ${photoURL}`)
+        return '<img src="' + photoURL + '">';
+        return "HELLO!"
     }
 
 }

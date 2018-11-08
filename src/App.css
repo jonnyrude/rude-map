@@ -26,8 +26,9 @@ body {
 }
 
 #filter-query {
-  width: 98%;
+  width: wa98%;
 }
+
 .list {
   height: 300px;
   overflow: auto;

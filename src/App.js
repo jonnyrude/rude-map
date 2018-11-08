@@ -27,8 +27,8 @@ class App extends Component {
         </div>
 
         {/* <div id="map"></div> */}
-        <Map places={this.state.filteredResults} fourSqAPIcall={this.getFourSq} selectItem={(arg) => this.selectItem(arg)}
-          selection={this.state.selectedItemID}/>
+        <Map places={this.state.listings} fourSqAPIcall={this.getFourSq} selectItem={(arg) => this.selectItem(arg)}
+          selection={this.state.selectedItemID} foursqPhoto={this.getPhoto}/>
       </div>
     );
   }
@@ -98,8 +98,43 @@ class App extends Component {
               '&client_secret=H5N1I1ECCDDGALKI5GZU1XQGYKKJJHWGAUEYG5FYZFEFTIQT'+
               '&v=20181020';
 
-    return fetch(`${url}${id}?${authentication}`)
-   }
+    // create 2 promises
+
+    // // return fetch(`${url}${id}?${authentication}`)
+    // return fetch(`${url}${id}?${authentication}`)
+    // .then(res => res.json())
+    // .catch(err => {
+    //   console.log(`Error with 4sq request: ${err}`)
+    // })
+
+    let getFourData = fetch(`${url}${id}?${authentication}`)
+
+    let getFourPhoto = fetch(`https://api.foursquare.com/v2/venues/${id}/photos?group=venue&size=50x50&limit=2` +
+    `&${authentication}`)
+
+    let foursqPromises = [getFourData, getFourPhoto];
+    return Promise.all(foursqPromises)
+    .then(responses => responses.map(data => data.json()))
+    // .then(foursqData => foursqData)
+    .catch(err => {
+      console.log(`Error with 4sq request: ${err}`)
+    })
+
+  }
+
+  getPhoto = (markerID) => {
+    let id = this.state.listings[markerID].foursquareID;
+    let authentication = 'client_id=RGZFKSSZOTBZKW0JHI0DEHD34LIHGBICEWFHRH3TBGZZ4QFY'+
+    '&client_secret=H5N1I1ECCDDGALKI5GZU1XQGYKKJJHWGAUEYG5FYZFEFTIQT'+
+    '&v=20181020';
+
+
+    return fetch(`https://api.foursquare.com/v2/venues/${id}/photos?group=venue&size=50x50&limit=2` +
+    `&${authentication}`)
+    .then(respons => respons.json())
+    .then(json => json.response.photos.items[0].prefix + '100x100' + json.response.photos.items[0].suffix)
+
+  }
 }
 
 export default App;
