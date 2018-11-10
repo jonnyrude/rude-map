@@ -28,7 +28,7 @@ class App extends Component {
 
         {/* <div id="map"></div> */}
         <Map places={this.state.listings} fourSqAPIcall={this.getFourSq} selectItem={(arg) => this.selectItem(arg)}
-          selection={this.state.selectedItemID} foursqPhoto={this.getPhoto}/>
+          selection={this.state.selectedItemID} showingListings={this.state.filteredResults} foursqPhoto={this.getPhoto}/>
       </div>
     );
   }

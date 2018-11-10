@@ -23,31 +23,29 @@ class Map extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        // Open infoWindow on selected item, if selection made
         this.props.selection && this.state.markers.forEach(marker => {
             if (marker.foursquareID === this.props.selection) {
                 this.populateInfoWindow(marker);
             }
+
         })
 
-        // ATTEMPT to filter markers - doesn't work
         // // filter markers, if needed
-        // if (prevProps.places !== this.props.places ) {
+        if (prevProps.showingListings !== this.props.showingListings ) {
 
-        //     this.setState((state) => {
-        //         // console.log("Maps places changed"); // This fires
-        //         let showing = this.props.places.map(place => place.id);
-        //         return {
-        //             markers:  state.markers.forEach(marker => {
-        //                 if (showing.includes(marker.id)) {
-        //                     marker.map = this.state.map;
-        //                 }
-        //                 else {
-        //                     marker.map = null;
-        //                 }
-        //             })
-        //         }
-        //     })
-        // }
+
+                let showing = this.props.showingListings.map(place => place.id);
+
+                window.appMarkers.forEach(marker => {
+                        if (showing.includes(marker.id)) {
+                            marker.setMap(this.state.map);
+                        }
+                        else {
+                            marker.setMap(null);
+                        }
+                    })
+        }
     }
     /**
      * GOOGLE MAP CREATION
@@ -70,7 +68,7 @@ class Map extends Component {
      */
     createMarkers = (map) => {
         let bounds = new window.google.maps.LatLngBounds();
-        let mkrs = this.props.places.map((mark, index) => {
+        let mkrs = this.props.showingListings.map((mark, index) => {
             let marker = new window.google.maps.Marker({
                 map: map,
                 position: mark.geometry.location,
@@ -92,9 +90,10 @@ class Map extends Component {
 
         // Also create an info window
         const infoWin = new window.google.maps.InfoWindow();
+        window.appMarkers = mkrs;
 
 
-        this.setState({ markers: mkrs, infoWindow: infoWin, boundary: bounds });
+        this.setState({infoWindow: infoWin, boundary: bounds });
     }
 
 
