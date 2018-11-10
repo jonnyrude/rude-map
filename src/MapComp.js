@@ -18,26 +18,23 @@ class Map extends Component {
     componentWillMount() {
         // push initMap to a global (so it can be used as a callback by google's API <script>)
         window.initMap = this.initMap;
-        // init google API
+        // init google API - appends script to page
         initGoogleAPI();
     }
 
     componentDidUpdate(prevProps) {
         // Open infoWindow on selected item, if selection made
-        this.props.selection && window.appMarkers.forEach(marker => {
+        this.props.selection && this.state.markers.forEach(marker => {
             if (marker.foursquareID === this.props.selection) {
                 this.populateInfoWindow(marker);
             }
-
         })
 
         // // filter markers, if needed
         if (prevProps.showingListings !== this.props.showingListings ) {
-
-
                 let showing = this.props.showingListings.map(place => place.id);
 
-                window.appMarkers.forEach(marker => {
+                this.state.markers.forEach(marker => {
                         if (showing.includes(marker.id)) {
                             marker.setMap(this.state.map);
                         }
@@ -90,7 +87,7 @@ class Map extends Component {
 
         // Also create an info window
         const infoWin = new window.google.maps.InfoWindow();
-        window.appMarkers = mkrs;
+        this.state.markers = mkrs;
 
 
         this.setState({infoWindow: infoWin, boundary: bounds });
