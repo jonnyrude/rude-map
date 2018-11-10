@@ -64,10 +64,13 @@ class App extends Component {
  *
  */
   selectItem(eventObject) {
-    if(typeof eventObject === "object" && eventObject.target.tagName === "LI") {
+    if(typeof eventObject === "object" && eventObject.target && eventObject.target.tagName === "LI") {
       this.setState({ selectedItemID: eventObject.target.id})
   } else if (typeof eventObject === "string") {
     this.setState({selectedItemID: eventObject});
+  } else if(eventObject.foursquareID) {
+    // console.log('Selection attempt: ',eventObject);
+    this.setState({ selectedItemID: eventObject.foursquareID})
   }
   // eventObject.target.className = "chosen";
   }

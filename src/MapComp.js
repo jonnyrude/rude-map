@@ -83,9 +83,9 @@ class Map extends Component {
                 index: index,
             });
 
-            const callback = this.populateInfoWindow;
+            const callback = this.props.selectItem;
 
-            marker.addListener('click', function () {
+            marker.addListener('click', function (event) {
                 callback(this);
                 // toggle bounce animation
                 if(marker.getAnimation !== null) {
