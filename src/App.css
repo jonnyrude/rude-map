@@ -58,6 +58,30 @@ li:hover {
   height: 45%;
 }
 
+/* INFO WINDOW STYLE */
+.no-info-window-photo {
+  width: 100px;
+  height: 70px;
+  background-color: #a0a0a0;
+  text-align: center;
+  padding-top: 25px;
+}
+
+.info-window-title {
+  size: 25px;
+
+}
+
+.google-rating, .foursquare-rating {
+  margin: 0;
+}
+
+.ratings-header {
+  margin-bottom: 0;
+  margin-top: 4px;
+  text-decoration: underline;
+}
+
 @media screen and (min-width: 480px) {
   #app-container {
     flex-direction: row;

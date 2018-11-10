@@ -27,11 +27,11 @@ class Map extends Component {
         this.props.selection && this.state.markers.forEach(marker => {
             if (marker.foursquareID === this.props.selection) {
                 this.populateInfoWindow(marker);
+                marker.setAnimation(window.google.maps.Animation.BOUNCE)
+            } else {
+                marker.getAnimation() !== null && marker.setAnimation(null);
             }
         })
-
-
-
 
         /**
          * FILTER MARKERS
@@ -81,7 +81,6 @@ class Map extends Component {
                 id: mark.id,
                 foursquareID: mark.foursquareID,
                 index: index,
-                animation: window.google.maps.Animation.drop // not working TODO
             });
 
             const callback = this.populateInfoWindow;
@@ -139,9 +138,22 @@ class Map extends Component {
      */
     createInfoWinContent(foursqData, foursqPhotoInfo) {
         let googleInfo = this.props.places.find(loc => loc.foursquareID === foursqData.response.venue.id);
-        let photoURL = foursqPhotoInfo.response.photos.items[0].prefix + '100x100' + foursqPhotoInfo.response.photos.items[0].suffix;
 
-        return '<img src="' + photoURL + '">';
+        let urlSuffix = (foursqPhotoInfo.response.photos.items[0] && foursqPhotoInfo.response.photos.items[0].suffix) ? foursqPhotoInfo.response.photos.items[0].suffix : null;
+        let urlPrefix = (foursqPhotoInfo.response.photos.items[0] && foursqPhotoInfo.response.photos.items[0].prefix) ? foursqPhotoInfo.response.photos.items[0].prefix : null;
+        let photoURL = (urlPrefix && urlSuffix) ? urlPrefix + '100x100' + urlSuffix : null;
+
+        let content = '<h3 class="info-window-title">' + googleInfo.name + '</h3>';
+
+
+        content += photoURL ? '<img class="info-window-image" src="' + photoURL + '">' : '<div class="no-info-window-photo">Photo Not Available</div>';
+        content += '<h4 class="ratings-header">Ratings:</h4>'
+        content += googleInfo.rating ? '<p class="google-rating">Google: ' + googleInfo.rating.toString() + '</p>': "";
+        console.log(foursqData);
+        content += foursqData.response.venue.rating ? '<p class="foursquare-rating">FourSquare: ' +  foursqData.response.venue.rating.toString() + '</p>' : "";
+
+
+        return content
     }
 
 }
