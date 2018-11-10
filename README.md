@@ -1,8 +1,8 @@
-# Neighborhood Map (Reat) Project
+# Neighborhood Map (React) Project
 
-This is my completed project for Udacity's React Fundamentals course, part of the Front End Nanodegree. No starter code was provided for this project.
+This is my completed project for Udacity's React Fundamentals course, part of the Front-End Nanodegree. No starter code was provided for this project.
 
-My neighborhood map is a single page web application built with React. It lists 15 cafe's in the south Denver-Metro area, displays their locations wiht markers on a Google Map, and allows for the user to search through the list by typing into the filter field.
+My neighborhood map is a single page web application built with React. It lists 15 cafes in the south Denver-Metro area, displays their locations with markers on a Google Map, and allows for the user to search through the list by typing into the filter field.
 
 ## To Run this App:
 
