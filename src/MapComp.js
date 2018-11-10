@@ -24,7 +24,7 @@ class Map extends Component {
 
     componentDidUpdate(prevProps) {
         // Open infoWindow on selected item, if selection made
-        this.props.selection && this.state.markers.forEach(marker => {
+        this.props.selection && window.appMarkers.forEach(marker => {
             if (marker.foursquareID === this.props.selection) {
                 this.populateInfoWindow(marker);
             }
