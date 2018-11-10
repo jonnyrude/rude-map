@@ -69,10 +69,11 @@ li:hover {
 
 .info-window-title {
   size: 25px;
-
+  max-width: 140px;
+  margin: 0;
 }
 
-.google-rating, .foursquare-rating {
+.google-rating, .foursquare-rating, .open-status {
   margin: 0;
 }
 

@@ -87,7 +87,10 @@ class Map extends Component {
 
             marker.addListener('click', function () {
                 callback(this);
-                console.log(`you clicked this: ${mark.name}`);
+                // toggle bounce animation
+                if(marker.getAnimation !== null) {
+                    marker.setAnimation(null)
+                }
             });
             bounds.extend(marker.position);
             return marker;
@@ -107,18 +110,12 @@ class Map extends Component {
         //marker.id is the index of the cafe object in state.filteredResults
         if (this.state.infoWindow.marker !== marker) {
             // Populate infoWin with info from Foursquare
-            this.props.fourSqAPIcall(marker.index)
-                .then(data => {
-                    //    console.log(data)
-                    return Promise.all(data)
-                })  //data.map(elem => elem.json()))  LEFT OFF HERE_NEED TO FIRE
+            Promise.all(this.props.fourSqAPIcall(marker.index))
                 .then(resp => {
-                    console.log(resp)
-                    // console.log(`Foursquare data fetched: ${resp.response.venue.name}`)
-                    // Populate infoWindow with info from Google
+                    console.log(resp[0], resp[1]);
                     this.setState(state => {
                         state.infoWindow.marker = marker;
-                        state.infoWindow.setContent(this.createInfoWinContent(resp[0], resp[1]));
+                        state.infoWindow.setContent(this.createInfoWinContent(resp[0], resp[1], marker.id));
                         state.infoWindow.open(state.map, marker);
                         state.infoWindow.addListener('closeClick', () => {
                             state.infoWindow.setMarker(null);
@@ -136,21 +133,22 @@ class Map extends Component {
     /**
      * Helper Function - Create HTML for infowindow
      */
-    createInfoWinContent(foursqData, foursqPhotoInfo) {
-        let googleInfo = this.props.places.find(loc => loc.foursquareID === foursqData.response.venue.id);
+    createInfoWinContent(foursqData, foursqPhotoInfo, markerIndex) {
+        let googleInfo = this.props.places[markerIndex]
+        console.log(`Google Info: `, googleInfo);
 
-        let urlSuffix = (foursqPhotoInfo.response.photos.items[0] && foursqPhotoInfo.response.photos.items[0].suffix) ? foursqPhotoInfo.response.photos.items[0].suffix : null;
-        let urlPrefix = (foursqPhotoInfo.response.photos.items[0] && foursqPhotoInfo.response.photos.items[0].prefix) ? foursqPhotoInfo.response.photos.items[0].prefix : null;
+        let DataAvailable = (foursqData.ok) && (foursqData.meta.code === 200) && (foursqPhotoInfo.meta.code === 200) ? true: false;
+        let urlSuffix = (DataAvailable && foursqPhotoInfo.response.photos.items[0] && foursqPhotoInfo.response.photos.items[0].suffix) ? foursqPhotoInfo.response.photos.items[0].suffix : null;
+        let urlPrefix = (DataAvailable && foursqPhotoInfo.response.photos.items[0] && foursqPhotoInfo.response.photos.items[0].prefix) ? foursqPhotoInfo.response.photos.items[0].prefix : null;
         let photoURL = (urlPrefix && urlSuffix) ? urlPrefix + '100x100' + urlSuffix : null;
 
         let content = '<h3 class="info-window-title">' + googleInfo.name + '</h3>';
 
-
+        content += (DataAvailable && foursqData.response.venue.hours) ? '<p class="open-status">' + foursqData.response.venue.hours.status + '</p>' : '';
         content += photoURL ? '<img class="info-window-image" src="' + photoURL + '">' : '<div class="no-info-window-photo">Photo Not Available</div>';
         content += '<h4 class="ratings-header">Ratings:</h4>'
         content += googleInfo.rating ? '<p class="google-rating">Google: ' + googleInfo.rating.toString() + '</p>': "";
-        console.log(foursqData);
-        content += foursqData.response.venue.rating ? '<p class="foursquare-rating">FourSquare: ' +  foursqData.response.venue.rating.toString() + '</p>' : "";
+        content += (DataAvailable && foursqData.response.venue.rating) ? '<p class="foursquare-rating">FourSquare: ' +  foursqData.response.venue.rating.toString() + '</p>' : "";
 
 
         return content

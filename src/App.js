@@ -108,16 +108,18 @@ class App extends Component {
     // })
 
     let getFourData = fetch(`${url}${id}?${authentication}`)
+    console.log('getFourData', getFourData)
 
     let getFourPhoto = fetch(`https://api.foursquare.com/v2/venues/${id}/photos?group=venue&size=50x50&limit=2` +
     `&${authentication}`)
 
-    let foursqPromises = [getFourData, getFourPhoto];
-    return Promise.all(foursqPromises)
-    .then(responses => responses.map(data => data.json()))
-    .catch(err => {
-      console.log(`Error with 4sq request: ${err}`)
-    })
+    return [getFourData, getFourPhoto];
+    //let foursqPromises = [getFourData, getFourPhoto];
+    // return Promise.all(foursqPromises)
+    // .then(responses => responses.map(data => data.json()))
+    // .catch(err => {
+    //   console.log(`Error with 4sq request: ${err}`)
+    // })
 
   }
 
