@@ -26,7 +26,8 @@ body {
 }
 
 #filter-query {
-  width: wa98%;
+  width: 98%;
+  height: 28px;
 }
 
 .list {
@@ -49,8 +50,20 @@ li:hover {
   cursor: pointer;
 }
 
+.cafe-list-item {
+  size: 18px;
+}
+
+
 .chosen {
-  color: red;
+  color: rgb(255, 106, 106);
+  /* border: 3px solid #fef3f3; */
+  text-decoration: underline;
+}
+
+.address-line {
+  size: 14px;
+  text-decoration: none;
 }
 
 #map {
@@ -104,5 +117,8 @@ li:hover {
     height: 100%;
   }
 
+  .cafe-list-item {
+    font-size: 19px;
+  }
 }
 

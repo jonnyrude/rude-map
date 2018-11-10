@@ -10,14 +10,14 @@ class List extends Component {
 
                         if(this.props.selection && this.props.selection.toString() === cafe.foursquareID) {
                             return (<div key={cafe.id} className="selectedCafe chosen">
-                                        <li key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
+                                        <li class="cafe-list-item" key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
                                         <div className="listInfo">
-                                            <p>{cafe.formatted_address}</p>
+                                            <p class="address-line">{cafe.formatted_address}</p>
                                         </div>
                                     </div>)
 
                         } else {
-                            return <li key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
+                            return <li class="cafe-list-item" key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
                         }
                     })}
                 </ul>
