@@ -74,7 +74,7 @@ class Map extends Component {
      */
     createMarkers = (map) => {
         let bounds = new window.google.maps.LatLngBounds();
-        let mkrs = this.props.showingListings.map((mark, index) => {
+        let mkrs = this.props.places.map((mark, index) => {
             let marker = new window.google.maps.Marker({
                 map: map,
                 position: mark.geometry.location,
@@ -115,7 +115,7 @@ class Map extends Component {
                     console.log(resp[0], resp[1]);
                     this.setState(state => {
                         state.infoWindow.marker = marker;
-                        state.infoWindow.setContent(this.createInfoWinContent(resp[0], resp[1], marker.id));
+                        state.infoWindow.setContent(this.createInfoWinContent(resp[0], resp[1], marker.index));
                         state.infoWindow.open(state.map, marker);
                         state.infoWindow.addListener('closeClick', () => {
                             state.infoWindow.setMarker(null);
@@ -135,7 +135,7 @@ class Map extends Component {
      */
     createInfoWinContent(foursqData, foursqPhotoInfo, markerIndex) {
         let googleInfo = this.props.places[markerIndex]
-        console.log(`Google Info: `, googleInfo);
+        console.log(markerIndex, `Google Info: `, googleInfo);
 
         let DataAvailable = (foursqData.ok) && (foursqData.meta.code === 200) && (foursqPhotoInfo.meta.code === 200) ? true: false;
         let urlSuffix = (DataAvailable && foursqPhotoInfo.response.photos.items[0] && foursqPhotoInfo.response.photos.items[0].suffix) ? foursqPhotoInfo.response.photos.items[0].suffix : null;
