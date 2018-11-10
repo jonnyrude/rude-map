@@ -81,7 +81,7 @@ class App extends Component {
     let results = this.state.listings.filter((cafe, index) => {
       return cafe.name.toLowerCase().includes(query.toLowerCase());
     })
-    this.setState({filteredResults: results})
+    this.setState({filteredResults: results, selectedItemID: null})
   }
 
 
@@ -115,26 +115,25 @@ class App extends Component {
     let foursqPromises = [getFourData, getFourPhoto];
     return Promise.all(foursqPromises)
     .then(responses => responses.map(data => data.json()))
-    // .then(foursqData => foursqData)
     .catch(err => {
       console.log(`Error with 4sq request: ${err}`)
     })
 
   }
 
-  getPhoto = (markerID) => {
-    let id = this.state.listings[markerID].foursquareID;
-    let authentication = 'client_id=RGZFKSSZOTBZKW0JHI0DEHD34LIHGBICEWFHRH3TBGZZ4QFY'+
-    '&client_secret=H5N1I1ECCDDGALKI5GZU1XQGYKKJJHWGAUEYG5FYZFEFTIQT'+
-    '&v=20181020';
+  // getPhoto = (markerID) => {
+  //   let id = this.state.listings[markerID].foursquareID;
+  //   let authentication = 'client_id=RGZFKSSZOTBZKW0JHI0DEHD34LIHGBICEWFHRH3TBGZZ4QFY'+
+  //   '&client_secret=H5N1I1ECCDDGALKI5GZU1XQGYKKJJHWGAUEYG5FYZFEFTIQT'+
+  //   '&v=20181020';
 
 
-    return fetch(`https://api.foursquare.com/v2/venues/${id}/photos?group=venue&size=50x50&limit=2` +
-    `&${authentication}`)
-    .then(respons => respons.json())
-    .then(json => json.response.photos.items[0].prefix + '100x100' + json.response.photos.items[0].suffix)
+  //   return fetch(`https://api.foursquare.com/v2/venues/${id}/photos?group=venue&size=50x50&limit=2` +
+  //   `&${authentication}`)
+  //   .then(respons => respons.json())
+  //   .then(json => json.response.photos.items[0].prefix + '100x100' + json.response.photos.items[0].suffix)
 
-  }
+  // }
 }
 
 export default App;

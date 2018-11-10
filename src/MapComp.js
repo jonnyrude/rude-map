@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import monochromeMapStyle from './map-style.js'
 
 class Map extends Component {
     state = {
@@ -23,7 +24,7 @@ class Map extends Component {
 
     componentDidUpdate(prevProps) {
         this.props.selection && this.state.markers.forEach(marker => {
-            if(marker.foursquareID === this.props.selection) {
+            if (marker.foursquareID === this.props.selection) {
                 this.populateInfoWindow(marker);
             }
         })
@@ -56,7 +57,7 @@ class Map extends Component {
         const map = new window.google.maps.Map(document.getElementById('map'), {
             center: { lat: 39.685585, lng: -104.98727 },
             zoom: 13,
-            styles: []
+            styles: monochromeMapStyle
         });
 
         this.setState({ map });
@@ -105,32 +106,30 @@ class Map extends Component {
         if (this.state.infoWindow.marker !== marker) {
 
             // Populate infoWin with info from Foursquare
-           this.props.fourSqAPIcall(marker.index)
-           .then(data =>  {
-            //    console.log(data)
-                return Promise.all(data)
-            })  //data.map(elem => elem.json()))  LEFT OFF HERE_NEED TO FIRE
-           .then(resp => {
-                console.log(resp)
-                // console.log(`Foursquare data fetched: ${resp.response.venue.name}`)
-                // Populate infoWindow with info from Google
-                this.setState(state => {
-                    state.infoWindow.marker = marker;
-                    state.infoWindow.setContent(this.createInfoWinContent(resp[0], resp[1]));
-                    state.infoWindow.open(state.map, marker);
-                    state.infoWindow.addListener('closeClick', () => {
-                        state.infoWindow.setMarker(null);
-                    });
-                    state.currentVenue = resp; // TODO use or remove
+            this.props.fourSqAPIcall(marker.index)
+                .then(data => {
+                    //    console.log(data)
+                    return Promise.all(data)
+                })  //data.map(elem => elem.json()))  LEFT OFF HERE_NEED TO FIRE
+                .then(resp => {
+                    console.log(resp)
+                    // console.log(`Foursquare data fetched: ${resp.response.venue.name}`)
+                    // Populate infoWindow with info from Google
+                    this.setState(state => {
+                        state.infoWindow.marker = marker;
+                        state.infoWindow.setContent(this.createInfoWinContent(resp[0], resp[1]));
+                        state.infoWindow.open(state.map, marker);
+                        state.infoWindow.addListener('closeClick', () => {
+                            state.infoWindow.setMarker(null);
+                        });
+                        state.currentVenue = resp; // TODO use or remove
+                    })
                 })
-            })
 
-
-
-        // Send selection id up to parent
-        if(marker.foursquareID !== this.props.selection) {
-            this.props.selectItem(marker.foursquareID);
-        }
+            // Send selection id up to parent
+            if (marker.foursquareID !== this.props.selection) {
+                this.props.selectItem(marker.foursquareID);
+            }
         }
     }
     /**
@@ -139,12 +138,9 @@ class Map extends Component {
 
     createInfoWinContent(foursqData, foursqPhotoInfo) {
         let googleInfo = this.props.places.find(loc => loc.foursquareID === foursqData.response.venue.id);
-        // let imageURL = this.props.foursqPhoto(markerIndex)
-        // return this.props.foursqPhoto(markerIndex)
-        let photoURL = foursqPhotoInfo.response.photos.items[0].prefix + '100x100' + foursqPhotoInfo.response.photos.items[0].suffix
-        console.log(`foursqData: ${foursqData}, foursqPhotoInfo: ${foursqPhotoInfo}, photoURL: ${photoURL}`)
+        let photoURL = foursqPhotoInfo.response.photos.items[0].prefix + '100x100' + foursqPhotoInfo.response.photos.items[0].suffix;
+
         return '<img src="' + photoURL + '">';
-        return "HELLO!"
     }
 
 }
