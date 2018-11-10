@@ -23,17 +23,22 @@ class Map extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // Open infoWindow on selected item, if selection made
+        // Open infoWindow on selected item, if selection made via list
         this.props.selection && this.state.markers.forEach(marker => {
             if (marker.foursquareID === this.props.selection) {
                 this.populateInfoWindow(marker);
             }
         })
 
-        // // filter markers, if needed
-        if (prevProps.showingListings !== this.props.showingListings ) {
-                let showing = this.props.showingListings.map(place => place.id);
 
+
+
+        /**
+         * FILTER MARKERS
+         */
+         if (prevProps.showingListings !== this.props.showingListings ) {
+            this.setState(state => {
+                let showing = this.props.showingListings.map(place => place.id);
                 this.state.markers.forEach(marker => {
                         if (showing.includes(marker.id)) {
                             marker.setMap(this.state.map);
@@ -42,12 +47,16 @@ class Map extends Component {
                             marker.setMap(null);
                         }
                     })
+                // Close infoWindow if selection set to null (i.e. new filtering action)
+                if (this.props.selection === null && this.state.infoWindow.marker) {
+                    state.infoWindow.close();
+                };
+            })
         }
     }
     /**
      * GOOGLE MAP CREATION
      */
-
     initMap = () => {
         const map = new window.google.maps.Map(document.getElementById('map'), {
             center: { lat: 39.685585, lng: -104.98727 },
@@ -61,7 +70,7 @@ class Map extends Component {
     }
 
     /**
-     * Markers to the map!
+     * ADD MARKERS TO MAP
      */
     createMarkers = (map) => {
         let bounds = new window.google.maps.LatLngBounds();
@@ -87,20 +96,17 @@ class Map extends Component {
 
         // Also create an info window
         const infoWin = new window.google.maps.InfoWindow();
-        this.state.markers = mkrs;
 
-
-        this.setState({infoWindow: infoWin, boundary: bounds });
+        this.setState({markers: mkrs, infoWindow: infoWin, boundary: bounds });
     }
 
 
     /**
- * Populate info Window
- */
+     * POPULATE INFOWINDOW ON GIVEN MARKER
+     */
     populateInfoWindow = (marker) => {
         //marker.id is the index of the cafe object in state.filteredResults
         if (this.state.infoWindow.marker !== marker) {
-
             // Populate infoWin with info from Foursquare
             this.props.fourSqAPIcall(marker.index)
                 .then(data => {
@@ -129,9 +135,8 @@ class Map extends Component {
         }
     }
     /**
-     * Create HTML for infowindow
+     * Helper Function - Create HTML for infowindow
      */
-
     createInfoWinContent(foursqData, foursqPhotoInfo) {
         let googleInfo = this.props.places.find(loc => loc.foursquareID === foursqData.response.venue.id);
         let photoURL = foursqPhotoInfo.response.photos.items[0].prefix + '100x100' + foursqPhotoInfo.response.photos.items[0].suffix;
