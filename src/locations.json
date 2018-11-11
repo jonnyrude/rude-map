@@ -286,7 +286,7 @@
         "foursquareID":"4a821e7af964a520abf81fe3"
     },
     {
-        "formatted_address": "3616, 1700 E 6th Ave, Denver, CO 80218",
+        "formatted_address": "1700 E 6th Ave, Denver, CO 80218",
         "geometry": {
             "location": {
                 "lat": 39.725429,

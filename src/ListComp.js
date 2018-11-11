@@ -12,7 +12,7 @@ class List extends Component {
                             return (<div key={cafe.id} className="selectedCafe chosen">
                                         <li className="cafe-list-item" key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
                                         <div className="listInfo">
-                                            <p className="address-line">{this.formatAddress(cafe.formatted_address)}</p>
+                                            <p className="address-line">{this.streetAddressString(cafe.formatted_address)}<br />{this.cityStateZip(cafe.formatted_address)}</p>
                                         </div>
                                     </div>)
 
@@ -25,8 +25,12 @@ class List extends Component {
         )
     }
 
-    formatAddress(addressString) {
-        return addressString.replace(", Denver", "<br />Denver")
+    streetAddressString(addressString) {
+        return addressString.slice(0, addressString.indexOf(','))
+    }
+
+    cityStateZip(addressString) {
+        return addressString.slice(addressString.indexOf(',') + 1)
     }
 }
 
