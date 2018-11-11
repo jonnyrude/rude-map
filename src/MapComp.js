@@ -23,7 +23,8 @@ class Map extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // Open infoWindow on selected item, if selection made via list
+
+        // If selection made via the list component, open Info Window & animate marker
         this.props.selection && this.state.markers.forEach(marker => {
             if (marker.foursquareID === this.props.selection) {
                 this.populateInfoWindow(marker);
@@ -36,17 +37,17 @@ class Map extends Component {
         /**
          * FILTER MARKERS
          */
-         if (prevProps.showingListings !== this.props.showingListings ) {
+        if (prevProps.showingListings !== this.props.showingListings) {
             this.setState(state => {
                 let showing = this.props.showingListings.map(place => place.id);
                 this.state.markers.forEach(marker => {
-                        if (showing.includes(marker.id)) {
-                            marker.setMap(this.state.map);
-                        }
-                        else {
-                            marker.setMap(null);
-                        }
-                    })
+                    if (showing.includes(marker.id)) {
+                        marker.setMap(this.state.map);
+                    }
+                    else {
+                        marker.setMap(null);
+                    }
+                })
                 // Close infoWindow if selection set to null (i.e. new filtering action)
                 if (this.props.selection === null && this.state.infoWindow.marker) {
                     state.infoWindow.close();
@@ -54,8 +55,10 @@ class Map extends Component {
             })
         }
     }
+
     /**
      * GOOGLE MAP CREATION
+     *  - this function is pushed to global/window scope so Google script can access it
      */
     initMap = () => {
         const map = new window.google.maps.Map(document.getElementById('map'), {
@@ -70,7 +73,8 @@ class Map extends Component {
     }
 
     /**
-     * ADD MARKERS TO MAP
+     * INITIALIZE MARKERS & INFOWINDOW
+     * - called once in componentWillMount
      */
     createMarkers = (map) => {
         let bounds = new window.google.maps.LatLngBounds();
@@ -88,7 +92,7 @@ class Map extends Component {
             marker.addListener('click', function (event) {
                 callback(this);
                 // toggle bounce animation
-                if(marker.getAnimation !== null) {
+                if (marker.getAnimation !== null) {
                     marker.setAnimation(null)
                 }
             });
@@ -99,22 +103,21 @@ class Map extends Component {
         // Also create an info window
         const infoWin = new window.google.maps.InfoWindow();
 
-        this.setState({markers: mkrs, infoWindow: infoWin, boundary: bounds });
+        this.setState({ markers: mkrs, infoWindow: infoWin, boundary: bounds });
     }
 
 
     /**
      * POPULATE INFOWINDOW ON GIVEN MARKER
+     * - Called when selection is made (marker or list item clicked)
      */
     populateInfoWindow = (marker) => {
         //marker.id is the index of the cafe object in state.filteredResults
         if (this.state.infoWindow.marker !== marker) {
             // Populate infoWin with info from Foursquare
             this.props.fourSqAPIcall(marker.index)
-            // console.log("Requests", requests)
-            // Promise.all(requests)
                 .then(resp => {
-                    console.log("RESPONSES",resp[0], resp[1]); //TODO REmove this console.log
+                    // console.log("RESPONSES",resp[0], resp[1]); //TODO REmove this console.log
                     this.setState(state => {
                         state.infoWindow.marker = marker;
                         state.infoWindow.setContent(this.createInfoWinContent(resp[0], resp[1], marker.index));
@@ -134,11 +137,12 @@ class Map extends Component {
     }
     /**
      * Helper Function - Create HTML for infowindow
+     *  - if I had more time, I'd try to refactor this into it's own component
      */
     createInfoWinContent(foursqData, foursqPhotoInfo, markerIndex) {
         let googleInfo = this.props.places[markerIndex]
 
-        let DataAvailable = (foursqData.meta) && (foursqData.meta.code === 200) && (foursqPhotoInfo.meta.code === 200) ? true: false;
+        let DataAvailable = (foursqData.meta) && (foursqData.meta.code === 200) && (foursqPhotoInfo.meta.code === 200) ? true : false;
         let urlSuffix = (DataAvailable && foursqPhotoInfo.response.photos.items[0] && foursqPhotoInfo.response.photos.items[0].suffix) ? foursqPhotoInfo.response.photos.items[0].suffix : null;
         let urlPrefix = (DataAvailable && foursqPhotoInfo.response.photos.items[0] && foursqPhotoInfo.response.photos.items[0].prefix) ? foursqPhotoInfo.response.photos.items[0].prefix : null;
         let photoURL = (urlPrefix && urlSuffix) ? urlPrefix + '100x100' + urlSuffix : null;
@@ -148,16 +152,18 @@ class Map extends Component {
         content += (DataAvailable && foursqData.response.venue.hours) ? '<p class="open-status">' + foursqData.response.venue.hours.status + '</p>' : '';
         content += photoURL ? '<img alt="Recent photo taken from ' + googleInfo.name + '" class="info-window-image" src="' + photoURL + '">' : '<div class="no-info-window-photo">Photo Not Available</div>';
         content += '<h4 class="ratings-header">Ratings:</h4>'
-        content += googleInfo.rating ? '<p class="google-rating">Google: ' + googleInfo.rating.toString() + '</p>': "";
-        content += (DataAvailable && foursqData.response.venue.rating) ? '<p class="foursquare-rating">FourSquare: ' +  foursqData.response.venue.rating.toString() + '</p>' : "";
+        content += googleInfo.rating ? '<p class="google-rating">Google: ' + googleInfo.rating.toString() + '</p>' : "";
+        content += (DataAvailable && foursqData.response.venue.rating) ? '<p class="foursquare-rating">FourSquare: ' + foursqData.response.venue.rating.toString() + '</p>' : "";
         content += (DataAvailable) ? '<a class="foursquare-attribution" href="' + foursqData.response.venue.canonicalUrl +
-        '?ref=RGZFKSSZOTBZKW0JHI0DEHD34LIHGBICEWFHRH3TBGZZ4QFY" target="_blank" rel="noopener">POWERED BY FOURSQUARE</a>' : "" ;
+            '?ref=RGZFKSSZOTBZKW0JHI0DEHD34LIHGBICEWFHRH3TBGZZ4QFY" target="_blank" rel="noopener">POWERED BY FOURSQUARE</a>' : "";
 
         return content
     }
 
 }
 
+// This is needed to fix to the HTML page, outside of React
+// - bit of a hack, but I used this instead of an external library
 function initGoogleAPI() {
     // create script to fetch google API
     const script = window.document.createElement('script');
