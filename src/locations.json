@@ -239,7 +239,7 @@
         "foursquareID":"4fcce3be7beb176f5dd71adb"
     },
     {
-        "formatted_address": "3806, 630 E 6th Ave, Denver, CO 80203",
+        "formatted_address": "630 E 6th Ave, Denver, CO 80203",
         "geometry": {
             "location": {
                 "lat": 39.7254806,

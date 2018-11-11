@@ -72,7 +72,6 @@ class App extends Component {
     // console.log('Selection attempt: ',eventObject);
     this.setState({ selectedItemID: eventObject.foursquareID})
   }
-  // eventObject.target.className = "chosen";
   }
 
   /**
@@ -91,54 +90,28 @@ class App extends Component {
   /**
    * FOURSQUARE API CALL
    *
-   *  - return a promise/fetch
+   *  - returns a Promise.all array of 2 Json items
    */
   getFourSq = (markerID) => {
+    // Set varialbes to create url for Foursquare API requests
     let id = this.state.listings[markerID].foursquareID;
-
     let url = 'https://api.foursquare.com/v2/venues/';
     let authentication = 'client_id=RGZFKSSZOTBZKW0JHI0DEHD34LIHGBICEWFHRH3TBGZZ4QFY'+
               '&client_secret=H5N1I1ECCDDGALKI5GZU1XQGYKKJJHWGAUEYG5FYZFEFTIQT'+
               '&v=20181020';
 
-    // create 2 promises
-
-    // // return fetch(`${url}${id}?${authentication}`)
-    // return fetch(`${url}${id}?${authentication}`)
-    // .then(res => res.json())
-    // .catch(err => {
-    //   console.log(`Error with 4sq request: ${err}`)
-    // })
-
-    let getFourData = fetch(`${url}${id}?${authentication}`)
-    console.log('getFourData', getFourData)
-
+    // create 2 promises - first for venue information
+    let getFourData = fetch(`${url}${id}?${authentication}`).then(venueReponse => venueReponse.json());
+    // second for photo information
     let getFourPhoto = fetch(`https://api.foursquare.com/v2/venues/${id}/photos?group=venue&size=50x50&limit=2` +
-    `&${authentication}`)
+    `&${authentication}`).then(photoResponse => photoResponse.json())
 
-    return [getFourData, getFourPhoto];
-    //let foursqPromises = [getFourData, getFourPhoto];
-    // return Promise.all(foursqPromises)
-    // .then(responses => responses.map(data => data.json()))
-    // .catch(err => {
-    //   console.log(`Error with 4sq request: ${err}`)
-    // })
+    // Use Promise.all to submit fetch requests asynchronously
+    let requests = [getFourData, getFourPhoto];
+    return Promise.all(requests)
 
   }
 
-  // getPhoto = (markerID) => {
-  //   let id = this.state.listings[markerID].foursquareID;
-  //   let authentication = 'client_id=RGZFKSSZOTBZKW0JHI0DEHD34LIHGBICEWFHRH3TBGZZ4QFY'+
-  //   '&client_secret=H5N1I1ECCDDGALKI5GZU1XQGYKKJJHWGAUEYG5FYZFEFTIQT'+
-  //   '&v=20181020';
-
-
-  //   return fetch(`https://api.foursquare.com/v2/venues/${id}/photos?group=venue&size=50x50&limit=2` +
-  //   `&${authentication}`)
-  //   .then(respons => respons.json())
-  //   .then(json => json.response.photos.items[0].prefix + '100x100' + json.response.photos.items[0].suffix)
-
-  // }
 }
 
 export default App;

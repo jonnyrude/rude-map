@@ -10,14 +10,14 @@ class List extends Component {
 
                         if(this.props.selection && this.props.selection.toString() === cafe.foursquareID) {
                             return (<div key={cafe.id} className="selectedCafe chosen">
-                                        <li class="cafe-list-item" key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
+                                        <li className="cafe-list-item" key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
                                         <div className="listInfo">
-                                            <p class="address-line">{cafe.formatted_address}</p>
+                                            <p className="address-line">{this.formatAddress(cafe.formatted_address)}</p>
                                         </div>
                                     </div>)
 
                         } else {
-                            return <li class="cafe-list-item" key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
+                            return <li className="cafe-list-item" key={cafe.id} id={cafe.foursquareID}>{cafe.name}</li>
                         }
                     })}
                 </ul>
@@ -25,6 +25,9 @@ class List extends Component {
         )
     }
 
+    formatAddress(addressString) {
+        return addressString.replace(", Denver", "<br />Denver")
+    }
 }
 
 export default List

@@ -110,9 +110,11 @@ class Map extends Component {
         //marker.id is the index of the cafe object in state.filteredResults
         if (this.state.infoWindow.marker !== marker) {
             // Populate infoWin with info from Foursquare
-            Promise.all(this.props.fourSqAPIcall(marker.index))
+            this.props.fourSqAPIcall(marker.index)
+            // console.log("Requests", requests)
+            // Promise.all(requests)
                 .then(resp => {
-                    console.log(resp[0], resp[1]);
+                    console.log("RESPONSES",resp[0], resp[1]); //TODO REmove this console.log
                     this.setState(state => {
                         state.infoWindow.marker = marker;
                         state.infoWindow.setContent(this.createInfoWinContent(resp[0], resp[1], marker.index));
@@ -135,9 +137,8 @@ class Map extends Component {
      */
     createInfoWinContent(foursqData, foursqPhotoInfo, markerIndex) {
         let googleInfo = this.props.places[markerIndex]
-        console.log(markerIndex, `Google Info: `, googleInfo);
 
-        let DataAvailable = (foursqData.ok) && (foursqData.meta.code === 200) && (foursqPhotoInfo.meta.code === 200) ? true: false;
+        let DataAvailable = (foursqData.meta) && (foursqData.meta.code === 200) && (foursqPhotoInfo.meta.code === 200) ? true: false;
         let urlSuffix = (DataAvailable && foursqPhotoInfo.response.photos.items[0] && foursqPhotoInfo.response.photos.items[0].suffix) ? foursqPhotoInfo.response.photos.items[0].suffix : null;
         let urlPrefix = (DataAvailable && foursqPhotoInfo.response.photos.items[0] && foursqPhotoInfo.response.photos.items[0].prefix) ? foursqPhotoInfo.response.photos.items[0].prefix : null;
         let photoURL = (urlPrefix && urlSuffix) ? urlPrefix + '100x100' + urlSuffix : null;
