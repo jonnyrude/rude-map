@@ -27,3 +27,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This project utilizes [the Foursquare Places API](https://developer.foursquare.com/docs/api).
 
+## Contributing
+
+This repository was a project completed as a part of the Udacity Front End Nanodegree curriculum. Many students completed this same project, and it was forked from Udacity's starter code. Because this was course work, I will not accept pull requests.
