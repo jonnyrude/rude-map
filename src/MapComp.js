@@ -12,7 +12,7 @@ class Map extends Component {
     }
 
     render() {
-        return <div id="map"></div>
+        return <div id="map" role="application"></div>
     }
 
     componentWillMount() {
@@ -146,7 +146,7 @@ class Map extends Component {
         let content = '<h3 class="info-window-title">' + googleInfo.name + '</h3>';
 
         content += (DataAvailable && foursqData.response.venue.hours) ? '<p class="open-status">' + foursqData.response.venue.hours.status + '</p>' : '';
-        content += photoURL ? '<img class="info-window-image" src="' + photoURL + '">' : '<div class="no-info-window-photo">Photo Not Available</div>';
+        content += photoURL ? '<img alt="Recent photo taken from ' + googleInfo.name + '" class="info-window-image" src="' + photoURL + '">' : '<div class="no-info-window-photo">Photo Not Available</div>';
         content += '<h4 class="ratings-header">Ratings:</h4>'
         content += googleInfo.rating ? '<p class="google-rating">Google: ' + googleInfo.rating.toString() + '</p>': "";
         content += (DataAvailable && foursqData.response.venue.rating) ? '<p class="foursquare-rating">FourSquare: ' +  foursqData.response.venue.rating.toString() + '</p>' : "";

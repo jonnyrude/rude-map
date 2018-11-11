@@ -7,12 +7,31 @@ body {
   position: fixed;
 }
 
+ :focus {
+   border: 3px solid blue;
+ }
+
+ button {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+
 #app-container {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column-reverse;
   height: 100vh;
 
+}
+
+h1 {
+  font-size: 1.5em;
 }
 
 #list-filter {

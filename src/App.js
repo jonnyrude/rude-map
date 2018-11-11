@@ -18,6 +18,7 @@ class App extends Component {
     return (
       <div id="app-container">
         <div id="list-filter">
+        <h1>Denver Cafe Map</h1>
           {/* Search component */}
           <Filter query={this.filter}/>
 
@@ -64,7 +65,8 @@ class App extends Component {
  *
  */
   selectItem(eventObject) {
-    if(typeof eventObject === "object" && eventObject.target && eventObject.target.tagName === "LI") {
+  if(typeof eventObject === "object" && eventObject.target && eventObject.target.tagName === "BUTTON") {
+      console.log(eventObject.key );
       this.setState({ selectedItemID: eventObject.target.id})
   } else if (typeof eventObject === "string") {
     this.setState({selectedItemID: eventObject});
