@@ -145,52 +145,6 @@
         "foursquareID":"4a270a1bf964a52050911fe3"
     },
     {
-        "formatted_address": "4101 E Evans Ave G, Denver, CO 80222",
-        "geometry": {
-            "location": {
-                "lat": 39.679054,
-                "lng": -104.938987
-            },
-            "viewport": {
-                "south": 39.67752192010727,
-                "west": -104.94033612989267,
-                "north": 39.68022157989272,
-                "east": -104.9376364701073
-            }
-        },
-        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
-        "id": "4",
-        "name": "Sweet Tryst",
-        "opening_hours": {
-            "open_now": true
-        },
-        "photos": [
-            {
-                "height": 3024,
-                "html_attributions": [
-                    "<a href=\"https://maps.google.com/maps/contrib/115555130821591387652/photos\">Daniel Dossey</a>"
-                ],
-                "width": 4032
-            }
-        ],
-        "place_id": "ChIJa8rS_gl-bIcRIQo5oWV5Byc",
-        "plus_code": {
-            "compound_code": "M3H6+JC Denver, Colorado",
-            "global_code": "85FQM3H6+JC"
-        },
-        "rating": 4.8,
-        "reference": "ChIJa8rS_gl-bIcRIQo5oWV5Byc",
-        "types": [
-            "cafe",
-            "store",
-            "food",
-            "point_of_interest",
-            "establishment"
-        ],
-        "html_attributions": [],
-        "foursquareID":"5aa1699e446ea66ba145da16"
-    },
-    {
         "formatted_address": "1045 Lincoln St, Denver, CO 80203",
         "geometry": {
             "location": {
