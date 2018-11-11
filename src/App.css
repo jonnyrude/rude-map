@@ -57,12 +57,12 @@ li:hover {
 
 .chosen {
   color: rgb(255, 106, 106);
-  text-decoration: underline;
+  font-weight: bold;
 }
 
 .address-line {
   size: 14px;
-  text-decoration: none;
+  font-weight:normal;
 }
 
 #map {
