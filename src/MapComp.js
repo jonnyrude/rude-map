@@ -150,7 +150,8 @@ class Map extends Component {
         content += '<h4 class="ratings-header">Ratings:</h4>'
         content += googleInfo.rating ? '<p class="google-rating">Google: ' + googleInfo.rating.toString() + '</p>': "";
         content += (DataAvailable && foursqData.response.venue.rating) ? '<p class="foursquare-rating">FourSquare: ' +  foursqData.response.venue.rating.toString() + '</p>' : "";
-
+        content += (DataAvailable) ? '<a class="foursquare-attribution" href="' + foursqData.response.venue.canonicalUrl +
+        '?ref=RGZFKSSZOTBZKW0JHI0DEHD34LIHGBICEWFHRH3TBGZZ4QFY" target="_blank" rel="noopener">POWERED BY FOURSQUARE</a>' : "" ;
 
         return content
     }

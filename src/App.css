@@ -95,6 +95,13 @@ li:hover {
   text-decoration: underline;
 }
 
+.foursquare-attribution {
+  font-size: 80%;
+  text-decoration: none;
+  color: blue;
+  font-weight: bold;
+}
+
 @media screen and (min-width: 480px) {
   #app-container {
     flex-direction: row;
