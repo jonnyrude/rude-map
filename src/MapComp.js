@@ -64,7 +64,9 @@ class Map extends Component {
         const map = new window.google.maps.Map(document.getElementById('map'), {
             center: { lat: 39.685585, lng: -104.98727 },
             zoom: 13,
-            styles: monochromeMapStyle
+            styles: monochromeMapStyle,
+            // mapTypeId: window.google.maps.mapTypeId.ROADMAP,
+            disableDefaultUI: true
         });
 
         this.setState({ map });
