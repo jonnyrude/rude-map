@@ -120,6 +120,34 @@ li:hover {
   font-weight: bold;
 }
 
+.error-message {
+  background-color: #ee3a3ad2;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.1em;
+  border-radius: .5em;
+  border: 2px solid #0000008c;
+  padding: .5em;
+  display: block;
+  position: absolute;
+  right: 3%;
+  top:-80px;
+  min-width: 200px;
+  max-width: 350px;
+  height: 55px;
+  transition: top .8s ease-in-out;
+}
+
+.err-subtext {
+  font-weight: normal;
+  font-size: .75em;
+}
+
+.showing {
+  top: 5px;
+
+}
+
 @media screen and (min-width: 480px) {
   #app-container {
     flex-direction: row;

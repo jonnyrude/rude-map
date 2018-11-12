@@ -65,7 +65,6 @@ class Map extends Component {
             center: { lat: 39.685585, lng: -104.98727 },
             zoom: 13,
             styles: monochromeMapStyle,
-            // mapTypeId: window.google.maps.mapTypeId.ROADMAP,
             disableDefaultUI: true
         });
 
@@ -119,7 +118,7 @@ class Map extends Component {
             // Populate infoWin with info from Foursquare
             this.props.fourSqAPIcall(marker.index)
                 .then(resp => {
-                    // console.log("RESPONSES",resp[0], resp[1]); //TODO REmove this console.log
+                    // console.log("RESPONSES",resp); //TODO REmove this console.log
                     this.setState(state => {
                         state.infoWindow.marker = marker;
                         state.infoWindow.setContent(this.createInfoWinContent(resp[0], resp[1], marker.index));
@@ -130,6 +129,7 @@ class Map extends Component {
                         state.currentVenue = resp; // TODO use or remove
                     })
                 })
+
 
             // Send selection id up to parent
             if (marker.foursquareID !== this.props.selection) {

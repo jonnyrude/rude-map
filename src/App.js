@@ -10,7 +10,8 @@ class App extends Component {
   state = {
     listings: [],
     filteredResults: [],
-    selectedItemID: null
+    selectedItemID: null,
+    error: false
   }
 
   render() {
@@ -28,7 +29,9 @@ class App extends Component {
 
         {/* Map Component - Info Windows display Foursquare API info */}
         <Map places={this.state.listings} fourSqAPIcall={this.getFourSq} selectItem={(arg) => this.selectItem(arg)}
-          selection={this.state.selectedItemID} showingListings={this.state.filteredResults} foursqPhoto={this.getPhoto} />
+          selection={this.state.selectedItemID} showingListings={this.state.filteredResults} foursqPhoto={this.getPhoto}
+          error={this.apiCallWorked} />
+        <div className={"error-message " + (this.state.error ? "showing":"hidden" )}>Problem loading information:<br /><span className="err-subtext">Some information was not gathered from the API</span></div>
       </div>
     );
   }
@@ -49,7 +52,6 @@ class App extends Component {
    */
   selectItem(eventObject) {
     if (typeof eventObject === "object" && eventObject.target && eventObject.target.tagName === "BUTTON") {
-      console.log(eventObject.key);
       this.setState({ selectedItemID: eventObject.target.id })
     } else if (typeof eventObject === "string") {
       this.setState({ selectedItemID: eventObject });
@@ -94,10 +96,29 @@ class App extends Component {
 
     // Use Promise.all to submit fetch requests asynchronously
     let requests = [getFourData, getFourPhoto];
-    return Promise.all(requests) // Could push to state here
+    return Promise.all(requests)
+    .then(resp => {
+      this.apiCallWorked(true)
+      return resp
+    })
+    .catch(error => {
+      this.apiCallWorked(false, error)
+      return [ "","" ]
+    })
 
   }
 
+  apiCallWorked(bool, err) {
+    if(bool) {
+      // Error not caught, so clear if needed
+      this.setState({error: false})
+    }
+    else {
+      // Error Caught
+      this.setState({error: true})
+      console.log(err)
+    }
+  }
 }
 
 export default App;
