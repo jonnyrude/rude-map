@@ -10,7 +10,9 @@ My neighborhood map is a single page web application built with React. It lists 
 * In a terminal:
   * `cd` into the root folder
   * install all project dependencies by running `yarn install` (only need to do this once)
-  * start the development server with `yarn start` (this start a local server and open a web browser tab to the project)
+  * `yarn build` (only need to do this once)
+  * `yarn global add serve` (only need to do this once)
+  * `serve build` to open the running project - (this start a local server with the final build version and opens a web browser tab to the project)
 
 ## Features
 The locations for this app are hard-coded. There is no search functionality.
