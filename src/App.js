@@ -16,7 +16,7 @@ class App extends Component {
 
   render() {
     return (
-      <div id="app-container">
+      <main role="main" id="app-container">
         <div id="list-filter">
           <h1>Denver Cafe Map</h1>
           {/* Filter component */}
@@ -32,8 +32,9 @@ class App extends Component {
           selection={this.state.selectedItemID} showingListings={this.state.filteredResults} foursqPhoto={this.getPhoto}
           error={this.apiCallWorked} />
         <div className={"error-message " + (this.state.error ? "showing":"hidden" )}>Problem loading information:<br /><span className="err-subtext">Some information was not gathered from the API</span></div>
-      </div>
+      </main>
     );
+
   }
 
 
@@ -42,6 +43,10 @@ class App extends Component {
     const myPlaces = data.default;
     // Load info from JSON file (hard-coded info on coffee shops in Denver)
     this.setState({ listings: myPlaces, filteredResults: myPlaces });
+
+    window.gm_authFailure= () => {
+      window.alert("Google Maps Auth Failure")
+    }
   }
 
 
