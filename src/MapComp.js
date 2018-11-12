@@ -22,6 +22,7 @@ class Map extends Component {
         initGoogleAPI();
     }
 
+
     componentDidUpdate(prevProps) {
 
         // If selection made via the list component, open Info Window & animate marker

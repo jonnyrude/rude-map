@@ -28,7 +28,7 @@ class App extends Component {
         </div>
 
         {/* Map Component - Info Windows display Foursquare API info */}
-        <Map places={this.state.listings} fourSqAPIcall={this.getFourSq} selectItem={(arg) => this.selectItem(arg)}
+        <Map role='application' aria-label='map' places={this.state.listings} fourSqAPIcall={this.getFourSq} selectItem={(arg) => this.selectItem(arg)}
           selection={this.state.selectedItemID} showingListings={this.state.filteredResults} foursqPhoto={this.getPhoto}
           error={this.apiCallWorked} />
         <div className={"error-message " + (this.state.error ? "showing":"hidden" )}>Problem loading information:<br /><span className="err-subtext">Some information was not gathered from the API</span></div>

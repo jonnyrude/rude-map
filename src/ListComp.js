@@ -5,7 +5,7 @@ class List extends Component {
   render() {
     return (
       <div className="list" >
-        <ul onClick={this.props.selectItem}>
+        <ul role="list" onClick={this.props.selectItem}>
           {this.props.places && this.props.places.map(cafe => {
 
             if (this.props.selection && this.props.selection.toString() === cafe.foursquareID) {
