@@ -1,11 +1,13 @@
 # Neighborhood Map (React) Project
 
-This is my completed project for Udacity's React Fundamentals course, part of the Front-End Nanodegree. No starter code was provided for this project.
+This is my completed project for Udacity's React Fundamentals course, part of the Front-End Nanodegree. No starter code was provided for this project, though this project was created using [Create React App](https://github.com/facebook/create-react-app).
 
 My neighborhood map is a single page web application built with React. It lists 14 cafes in the south Denver-Metro area, displays their locations with markers on a Google Map, and allows for the user to search through the list by typing into the filter field.
 
 ## To Run this App:
+You can [view this app live here](https://jonnyrude.github.io/rude-map/).
 
+To run this project locally on your machine:
 * Clone or download the project
 * In a terminal:
   * `cd` into the root folder
@@ -15,7 +17,7 @@ My neighborhood map is a single page web application built with React. It lists 
   * `serve build` to open the running project - (this start a local server with the final build version and opens a web browser tab to the project)
 
 ## Features
-The locations for this app are hard-coded. There is no search functionality.
+The locations for this app are hard-coded. There text input is to filter these pre-populated results.
 
 The photo, Foursquare rating, and hours of operation information (if available) are retrieved from the Foursquare API, so this information is live.
 
@@ -28,6 +30,8 @@ Clicking the bouncing icon will stop the bouncing. Constant bouncing gets annoyi
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 This project utilizes [the Foursquare Places API](https://developer.foursquare.com/docs/api).
+
+Map Styling provide [by Ellen from SnazzyMaps.com](https://snazzymaps.com/style/4069/navigation)
 
 ## Contributing
 
